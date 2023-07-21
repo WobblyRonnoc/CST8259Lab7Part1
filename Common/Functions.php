@@ -1,5 +1,5 @@
 <?php
-function GetRestaurantNames()
+function GetRestaurantNames(): array
 {
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
@@ -11,7 +11,7 @@ function GetRestaurantNames()
     }
     return $names;
 }
-function GetAllRestaurantReviews()
+function GetAllRestaurantReviews(): array
 {
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
@@ -21,7 +21,7 @@ function GetAllRestaurantReviews()
     for($i = 0; $i < count($restaurants->restaurant); $i++)
     {
         $rest = $restaurants->restaurant[$i];
-        
+
         $restData = new Restaurant;
         $restData->id = $i;
         $restData->name = (string)$rest->name;
@@ -38,7 +38,7 @@ function GetAllRestaurantReviews()
         $restData->address->city = (string)$rest->address->city;
         $restData->address->provstate = (string)$rest->address->state_province;
         $restData->address->postalzipcode = (string)$rest->address->zip_postal_code;
-        
+
         $reviews[] = $restData;
     }
     return $reviews;
@@ -53,7 +53,7 @@ function GetRestaurantReviewById(int $id)
     if ($id >= 0 && $id < count($restaurants->restaurant))
     {
         $rest = $restaurants->restaurant[$id];
-        
+
         $restData = new Restaurant;
         $restData->id = $id;
         $restData->name = (string)$rest->name;
@@ -70,7 +70,7 @@ function GetRestaurantReviewById(int $id)
         $restData->address->city = (string)$rest->address->city;
         $restData->address->provstate = (string)$rest->address->state_province;
         $restData->address->postalzipcode = (string)$rest->address->zip_postal_code;
-        
+
         return $restData;
     }
     else
@@ -79,7 +79,7 @@ function GetRestaurantReviewById(int $id)
     }
 }
 
-function UpdateRestaurant($updatedRest)
+function UpdateRestaurant($updatedRest): bool
 {
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
@@ -112,7 +112,7 @@ function UpdateRestaurant($updatedRest)
     }
 }
 
-function DeleteRestaurantReviewById(int $id)
+function DeleteRestaurantReviewById(int $id): bool
 {
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
@@ -128,7 +128,7 @@ function DeleteRestaurantReviewById(int $id)
     return false;
 }
 
-function SaveNewRestaurant($newRest)
+function SaveNewRestaurant($newRest): bool
 {
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
@@ -173,7 +173,7 @@ function SaveNewRestaurant($newRest)
 }
 
 function loggingToFile(string $logtext) {
-    $fp = fopen("c:/temp/phplog.txt", 'a');
+    $fp = fopen("C:\\temp\\phplog.txt", 'a');
     fwrite($fp, "\n");
     fwrite($fp, $logtext);
     fclose($fp);
