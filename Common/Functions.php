@@ -84,7 +84,6 @@ function UpdateRestaurant($updatedRest): bool
     $appConfigs = parse_ini_file("Lab7.ini");
     $xmlFilePath = $appConfigs["xmlFilePath"];
     $restaurants = simplexml_load_file($xmlFilePath);
- 
     if ($updatedRest->id >= 0 && $updatedRest->id < count($restaurants->restaurant))
     {
         $restData = $restaurants->restaurant[$updatedRest->id];
@@ -92,7 +91,6 @@ function UpdateRestaurant($updatedRest): bool
         $restData->name = $updatedRest->name;
         $restData->summary = $updatedRest->summary;
         $restData->food_type = $updatedRest->foodType;
-       
         $restData->rating= $updatedRest->rating->currentRating ;
         
         $restData->cost = $updatedRest->cost->currentCost;
@@ -179,3 +177,22 @@ function loggingToFile(string $logtext) {
     fclose($fp);
 }
 
+// added this function to log headers to the phplog.txt file
+function logHeaders() {
+    $fp = fopen("C:\\temp\\phplog.txt", 'a');
+    fwrite($fp, "---Headers---");
+    fwrite($fp, "\n");
+    fwrite($fp, "Headers:");
+    foreach (getallheaders() as $name => $value) {
+        fwrite($fp, "\n");
+        fwrite($fp, "$name: $value");
+    }
+    fclose($fp);
+}
+
+// added this function to make the RestaurantReviews.php file more readable
+function isJsonRequest(): bool
+{
+    $requestHeaders = array_change_key_case(getallheaders(), CASE_LOWER);
+    return isset($requestHeaders['content-type']) && stripos($requestHeaders['content-type'], 'application/json') !== false;
+}
